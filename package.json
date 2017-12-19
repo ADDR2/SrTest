@@ -1,0 +1,27 @@
+{
+  "name": "sr_test",
+  "version": "1.0.0",
+  "description": "Sr NodeJs Test",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha tests/**/*.test.js --exit --timeout 15000",
+    "start": "node index.js",
+    "debug": "node --inspect-brk index.js"
+  },
+  "keywords": [
+    "Backend",
+    "Node",
+    "Express"
+  ],
+  "author": "Amaro Duarte",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.5.2",
+    "express": "^4.16.2",
+    "pg": "^7.4.0",
+    "sequelize": "^4.28.6"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1"
+  }
+}
