@@ -31,15 +31,13 @@ app.use(bodyParser.json());
 
 /* Logger */
 app.use(morgan('dev', {
-  skip: function (req, res) {
-      return res.statusCode < 400
-  }, stream: process.stdout
+  skip: (req, res) => res.statusCode < 400,
+  stream: process.stdout
 }));
 
 app.use(morgan('dev', {
-  skip: function (req, res) {
-      return res.statusCode >= 400
-  }, stream: process.stderr
+  skip: (req, res) => res.statusCode >= 400,
+  stream: process.stderr
 }));
 
 /* Define routes */
