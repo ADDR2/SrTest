@@ -2,6 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Sequelize = require('sequelize');
+const morgan = require('morgan');
 const app = express();
 
 /* Local imports */
@@ -29,10 +30,17 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 /* Logger */
-app.use((req, res, next) => {
-  console.log(`[${(new Date()).toTimeString()}] ${req.method} - ${req.originalUrl}${req.baseUrl}`);
-  next();
-});
+app.use(morgan('dev', {
+  skip: function (req, res) {
+      return res.statusCode < 400
+  }, stream: process.stdout
+}));
+
+app.use(morgan('dev', {
+  skip: function (req, res) {
+      return res.statusCode >= 400
+  }, stream: process.stderr
+}));
 
 /* Define routes */
 app.use("/meals", mealRoute);

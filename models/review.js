@@ -7,13 +7,17 @@ module.exports = function(sequelize, Sequelize) {
             autoIncrement: true
         },
         name: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         review: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         rating: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            validate: { min: 1, max: 5 }
         }
     }, {
         schema: 'sr_amaro',

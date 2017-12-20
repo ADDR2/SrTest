@@ -10,26 +10,33 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.TEXT
         },
         commercialName: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         legalName: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         rating: {
             type: Sequelize.FLOAT,
+            defaultValue: 1,
             validate: { min: 1, max: 5 }
         },
         commercialEmail: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false,
+            validate: { isEmail: true }
         },
         adminNumber: {
             type: Sequelize.TEXT
         },
         address: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         Location: {
-            type: Sequelize.GEOMETRY('POINT')
+            type: Sequelize.GEOMETRY('POINT'),
+            allowNull: false
         }
     }, {
         schema: 'sr_amaro',
