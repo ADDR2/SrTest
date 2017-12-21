@@ -48,7 +48,7 @@ module.exports = function(models, sequelize){
         }).then(
             restaurant => {
                 logger.info(`Restaurant *${commercialName}* successfully created`);
-                res.status(200).send(restaurant);
+                res.status(201).send(restaurant);
             }, error => {
                 logger.error(error);
                 res.status(500).send("Something went wrong");

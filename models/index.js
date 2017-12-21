@@ -16,9 +16,9 @@ module.exports = function(sequelize){
     models.order.hasOne(models.sms, { foreignKey: 'order_id', sourceKey: 'id' });
     models.order.belongsTo(models.restaurant, { foreignKey: 'restaurant_id', sourceKey: 'id' });
 
-    models.restaurant.hasMany(models.meal, { foreignKey: 'restaurant_id', sourceKey: 'id' });
-    models.restaurant.hasMany(models.review, { foreignKey: 'restaurant_id', sourceKey: 'id' });
-    models.restaurant.hasMany(models.order, { foreignKey: 'restaurant_id', sourceKey: 'id' });
+    models.restaurant.hasMany(models.meal, { foreignKey: 'restaurant_id', sourceKey: 'id', onDelete: 'cascade' });
+    models.restaurant.hasMany(models.review, { foreignKey: 'restaurant_id', sourceKey: 'id', onDelete: 'cascade' });
+    models.restaurant.hasMany(models.order, { foreignKey: 'restaurant_id', sourceKey: 'id', onDelete: 'cascade' });
 
     models.review.belongsTo(models.restaurant, { foreignKey: 'restaurant_id', sourceKey: 'id' });
 

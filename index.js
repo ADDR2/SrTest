@@ -7,6 +7,12 @@ const app = express();
 
 /* Local imports */
 const dbProperties = require('./properties/DB.json');
+const senderGenerator = require('./queueAgents/sender');
+const zumeSender = senderGenerator("Zume");
+const smsSender = senderGenerator("Sms");
+require('./queueAgents/receiver')("Zume", smsSender);
+
+//setTimeout(() => zumeSender.channel.next().value("Hello"), 5000);
 
 const sequelize = new Sequelize( ...dbProperties.config, dbProperties.DB );
 const models = require('./models/index.js')(sequelize);
@@ -20,8 +26,10 @@ sequelize.sync()
 
 /* Import routes */
 const mealRoute = require("./routes/meal")(models, sequelize);
+const orderRoute = require("./routes/order")(models, sequelize, zumeSender);
 const restaurantRoute = require("./routes/restaurant")(models, sequelize);
 const reviewRoute = require("./routes/review")(models, sequelize);
+const smsRoute = require("./routes/sms")(models, sequelize);
 
 /* Post from evironment variables or 3000 by default */
 const port = process.env.PORT || 3000;
@@ -42,8 +50,10 @@ app.use(morgan('dev', {
 
 /* Define routes */
 app.use("/meals", mealRoute);
+app.use("/orders", orderRoute);
 app.use("/restaurants", restaurantRoute);
 app.use("/reviews", reviewRoute);
+app.use("/sms", smsRoute);
 
 /* Listen on given port */
 app.listen(port, () => {
