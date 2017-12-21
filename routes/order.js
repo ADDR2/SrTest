@@ -2,10 +2,8 @@
 const router = require("express").Router();
 
 /* Local imports */
-const logger = require("../logger");
-const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyColnIk7nrUZXnFu2VAVUll9mNp6PpxmSE'
-});
+const logger = require("../utils/logger");
+const { getDistance } = require("../utils/requests");
 
 module.exports = function(models, sequelize, sender){
     
@@ -24,7 +22,8 @@ module.exports = function(models, sequelize, sender){
         const {
             address,
             position,
-            meals
+            meals,
+            restaurant_id
         } = req.body;
 
         const totalCost = req.body["total cost"];
@@ -32,16 +31,42 @@ module.exports = function(models, sequelize, sender){
         if(!meals || !Array.isArray(meals) || meals.length <= 0)
             return res.status(400).send("Bad request");
 
-        
+
         models.order.create({
             address,
             position,
-            "total cost": totalCost
+            "total cost": totalCost,
+            restaurant_id
         }).then(
             order => {
                 logger.info(`Order *${address}* successfully created`);
-                res.status(201).send(order);
-            }, error => {
+
+                return Promise.all([
+                    models.restaurant.findById(
+                        restaurant_id,
+                        { attributes: ['Location', 'commercialEmail'] }
+                    ),
+                    Promise.resolve(order),
+                    order.addMeals(meals)
+                ]);
+            }
+        ).then(
+            results => {
+                const { Location, commercialEmail } = results[0];
+                sender.channel.next().value(JSON.stringify(
+                    { ...results[1].dataValues, commercialEmail },
+                    undefined,
+                    2
+                ));
+
+                return getDistance(Location.coordinates, position.coordinates);
+            }
+        ).then(
+            ({ data }) => {
+                res.status(201).send(data.rows[0].elements[0].duration.text);
+            }
+        ).catch(
+            error => {
                 logger.error(error);
                 res.status(500).send("Something went wrong");
             }

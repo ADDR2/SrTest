@@ -2,7 +2,7 @@
 const amqp = require('amqplib/callback_api');
 
 /* Local import */
-const logger = require("../logger");
+const logger = require("../utils/logger");
 
 module.exports = queue => {
 
@@ -15,7 +15,7 @@ module.exports = queue => {
             error = err;
 
             ch.assertQueue(queue, { durable: false });
-            logger.info(`Channel created on ${queue}`);
+            logger.info(`Sender channel created on ${queue}`);
         };
 
         while(true){

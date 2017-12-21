@@ -2,11 +2,19 @@
 const router = require("express").Router();
 
 /* Local libraries */
+const logger = require("../utils/logger");
 
 module.exports = function(models, sequelize){
     
     const getAllReviews = (req, res) => {
-        res.status(200).send("Ok");
+        models.review.all().then(
+            reviews => {
+                res.status(200).send(reviews);
+            }, error => {
+                logger.error(error);
+                res.status(500).send("Something went wrong");
+            }
+        );
     };
 
     router.get("/", getAllReviews);

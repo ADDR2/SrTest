@@ -2,6 +2,7 @@
 const router = require("express").Router();
 
 /* Local libraries */
+const logger = require("../utils/logger");
 
 module.exports = function(models, sequelize){
     
@@ -20,13 +21,15 @@ module.exports = function(models, sequelize){
         const {
             name,
             description,
-            price
+            price,
+            restaurant_id
         } = req.body;
 
         models.meal.create({
             name,
             description,
-            price
+            price,
+            restaurant_id
         }).then(
             meal => {
                 res.status(200).send(meal);

@@ -10,12 +10,13 @@ const dbProperties = require('./properties/DB.json');
 const senderGenerator = require('./queueAgents/sender');
 const zumeSender = senderGenerator("Zume");
 const smsSender = senderGenerator("Sms");
-require('./queueAgents/receiver')("Zume", smsSender);
 
 //setTimeout(() => zumeSender.channel.next().value("Hello"), 5000);
 
 const sequelize = new Sequelize( ...dbProperties.config, dbProperties.DB );
 const models = require('./models/index.js')(sequelize);
+require('./queueAgents/zumeReceiver')("Zume", smsSender, models);
+require('./queueAgents/smsReceiver')("Sms");
 
 sequelize.sync()
   .then(
