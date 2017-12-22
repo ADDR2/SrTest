@@ -4,8 +4,9 @@
   "description": "Sr NodeJs Test",
   "main": "server.js",
   "scripts": {
+    "seed": "node ./utils/init.js",
     "test": "mocha tests/**/*.test.js --exit --timeout 15000",
-    "start": "node index.js",
+    "start": "node ./utils/init.js && node index.js",
     "debug": "node --inspect-brk index.js"
   },
   "keywords": [
@@ -19,7 +20,6 @@
     "@google/maps": "^0.4.5",
     "amqplib": "^0.5.2",
     "axios": "^0.17.1",
-    "chai": "^4.1.2",
     "express": "^4.16.2",
     "lodash": "^4.17.4",
     "morgan": "^1.9.0",
@@ -29,6 +29,8 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   }
 }

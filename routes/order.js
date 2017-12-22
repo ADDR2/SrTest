@@ -46,24 +46,31 @@ module.exports = function(models, sequelize, sender){
                         restaurant_id,
                         { attributes: ['Location', 'commercialEmail'] }
                     ),
-                    Promise.resolve(order),
+                    order,
                     order.addMeals(meals)
                 ]);
             }
         ).then(
-            results => {
-                const { Location, commercialEmail } = results[0];
-                sender.channel.next().value(JSON.stringify(
-                    { ...results[1].dataValues, commercialEmail },
-                    undefined,
-                    2
-                ));
-
-                return getDistance(Location.coordinates, position.coordinates);
+            ([{ Location, commercialEmail }, { dataValues }]) => {
+                return Promise.all([
+                    getDistance(Location.coordinates, position.coordinates),
+                    { ...dataValues, commercialEmail }
+                ]);
             }
         ).then(
-            ({ data }) => {
-                res.status(201).send(data.rows[0].elements[0].duration.text);
+            ([ { data }, order ]) => {
+                if(data.rows[0].elements[0].status === "OK"){
+                    sender.channel.next().value(JSON.stringify(
+                        order,
+                        undefined,
+                        2
+                    ));
+
+                    res.status(201).send(data.rows[0].elements[0].duration.text);
+                } else {
+                    logger.error("Google did not found a path for your motorcycle");
+                    res.status(500).send("Something went wrong");
+                }
             }
         ).catch(
             error => {
