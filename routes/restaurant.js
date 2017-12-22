@@ -26,28 +26,21 @@ module.exports = function(models, sequelize){
     };
 
     const createRestaurant = (req, res) => {
-        const {
-            logo,
-            commercialName,
-            legalName,
-            commercialEmail,
-            adminNumber,
-            address,
-            Location
-        } = req.body;
+        const toCreate = pick(req.body, [
+            "logo",
+            "commercialName",
+            "legalName",
+            "commercialEmail",
+            "adminNumber",
+            "address",
+            "Location",
+            "id",
+            "rating"
+        ]);
 
-        models.restaurant.create({
-            logo,
-            commercialName,
-            legalName,
-            commercialEmail,
-            adminNumber,
-            address,
-            Location,
-            rating: 1
-        }).then(
+        models.restaurant.create(toCreate).then(
             restaurant => {
-                logger.info(`Restaurant *${commercialName}* successfully created`);
+                logger.info(`Restaurant *${restaurant.commercialName}* successfully created`);
                 res.status(201).send(restaurant);
             }, error => {
                 logger.error(error);
@@ -62,7 +55,9 @@ module.exports = function(models, sequelize){
         models.restaurant.destroy({
             where: { id }
         }).then(
-            restaurant => {
+            result => {
+                if(!result) return res.status(400).send(`Restaurant ${id} not found`);
+
                 logger.info(`Restaurant *${id}* successfully deleted`);
                 res.status(200).send("Deleted");
             }, error => {

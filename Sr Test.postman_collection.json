@@ -1,0 +1,258 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Sr Test",
+		"_postman_id": "face8995-d046-e962-3c22-73abc034ed40",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Restaurants",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Restaurants",
+					"request": {
+						"url": "http://localhost:3000/restaurants",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "",
+								"value": "",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"logo\": \"Nothing\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Restaurants Filtered",
+					"request": {
+						"url": {
+							"raw": "http://localhost:3000/restaurants?min=1&max=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"restaurants"
+							],
+							"query": [
+								{
+									"key": "min",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "max",
+									"value": "5",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "\"min\" and \"max\" are optional params. You can use one, both or none of them."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Restaurant",
+					"request": {
+						"url": "http://localhost:3000/restaurants/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\t\"logo\": \"logo.png\",\r    \"commercialName\": \"Zume\",\r    \"legalName\": \"Zume Pizza a.c\",\r    \"commercialEmail\": \"zume@zume.com\",\r    \"adminNumber\": \"3\",\r    \"address\": \"California\",\r    \"Location\": {\r    \t\"type\": \"Point\",\r    \t\"coordinates\": [41.43206,-81.38992]\r    }\r} "
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Restaurant",
+					"request": {
+						"url": "http://localhost:3000/restaurants/200",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r    \"commercialEmail\": \"aduarte@teravisiontech.com\"\r} "
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rate a Restaurant",
+					"request": {
+						"url": "http://localhost:3000/restaurants/200/rate",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"rating\": 4,\n\t\"name\": \"Amaro\",\n\t\"review\": \"Good\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Restaurant",
+					"request": {
+						"url": "http://localhost:3000/restaurants/200",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Meals",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Meals",
+					"request": {
+						"url": "http://localhost:3000/meals",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Meal",
+					"request": {
+						"url": "http://localhost:3000/meals",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Pineapple Express\",\n\t\"description\": \"Bacon, Green Onions, Ham, Mozzarella, Pineapple, Ricotta, Tomato Sauce\",\n\t\"price\": 20.00,\n\t\"restaurant_id\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"url": "http://localhost:3000/orders",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"address\": \"Calle 54 Bis\",\n\t\"position\": {\n\t\t\"type\": \"Point\",\n\t\t\"coordinates\": [4.641126,-74.0654098]\n\t},\n\t\"meals\": [1,2],\n\t\"restaurant_id\": 200,\n\t\"total cost\": 21.33\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders",
+					"request": {
+						"url": "http://localhost:3000/orders",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sms",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Sms",
+					"request": {
+						"url": "http://localhost:3000/sms/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Reviews",
+					"request": {
+						"url": "http://localhost:3000/reviews",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
