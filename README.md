@@ -37,7 +37,7 @@ Which does run this:
 
 ## To config
 
-You can find config file to change your DB options called ```DB.json`` on ``/properties/`` folder.
+You can find config file to change your DB options called ``DB.json`` on ``/properties/`` folder.
 
 You can also seed your database by running this command:
 
